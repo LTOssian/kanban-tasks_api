@@ -38,8 +38,8 @@ export const tasksController = {
         const { title, description } = req.query;
         if (title) {
             const [newRow, _] = await promisePool.query(
-                `INSERT INTO tasks (title, description, column_id) VALUES ("${title}", "${description}", ${req.columnId})`
-            )
+                "INSERT INTO `tasks` (`title`, `description`, `column_id`) VALUES (?, ?, ?)", [title, description, req.columnId] 
+            ) 
             res.json({
                 data: newRow
             })

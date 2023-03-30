@@ -38,7 +38,7 @@ export const columnsController = {
         const { name } = req.query;
         if (name) {
             const [newRow, _] = await promisePool.query(
-                `INSERT INTO columns (name, board_id) VALUES ('${name}', '${req.boardId}');`
+                `INSERT INTO columns (id, name, board_id) VALUES (NULL, '${name}', ${req.boardId});`
             );
             res.status(201).json({
                 data: newRow
