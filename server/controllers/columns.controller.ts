@@ -5,7 +5,7 @@ import { boardIdRequest } from "../interfaces/interfaces";
 const promisePool = pool.promise();
 
 export const columnsController = {
-    getAll: async (req: boardIdRequest, res: Response) => {
+    getAllByBoard: async (req: boardIdRequest, res: Response) => {
         const [rows, _] = await promisePool.query(
             `SELECT c.name, c.id, c.board_id, COUNT(t.id) as tasks_quantity FROM columns c LEFT JOIN tasks t ON c.id = t.column_id WHERE c.board_id = ${req.boardId} GROUP BY c.id;`
         );
@@ -54,7 +54,7 @@ export const columnsController = {
         const { id } = req.params;
         if ( name ) {
             const [updateRow, _] = await promisePool.query(
-                `UPDATE columns SET name="${name}" WHERE id = ${id}`
+                `UPDATE columns SET name="${name}" WHERE id = ${id} AND board_id = ${req.boardId}`
             );
             res.json({
                 data: updateRow
