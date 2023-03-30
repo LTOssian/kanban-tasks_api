@@ -39,10 +39,27 @@ export const boardsController = {
     postBoard: async (req: Request, res: Response) => {
         const { name } = req.query
         if (name) {
-            const sqlQuery = `INSERT INTO boards (id, name) VALUES (null,"${name}")`
-            const [newRow, _] = await promisePool.query(sqlQuery);    
+            const [newRow, _] = await promisePool.query(
+                `INSERT INTO boards (id, name) VALUES (null,"${name}")`
+            );    
             res.status(201).json({
                 data: newRow
+            })
+        } else {
+            res.status(404).json({
+                state: "error"
+            })
+        }
+    },
+    updateBoard: async (req: Request, res: Response) => {
+        const { name } = req.query 
+        const { id } = req.params
+        if (name) {
+            const [updatedRow, _] = await promisePool.query(
+                `UPDATE boards SET name ="${name}" WHERE id = ${id}`
+            )
+            res.json({
+                data: updatedRow
             })
         } else {
             res.status(404).json({
