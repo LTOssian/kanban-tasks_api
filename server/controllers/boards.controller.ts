@@ -1,13 +1,17 @@
-import { Request, Response } from "express"
+import { Request, Response } from "express";
+import { pool } from "../database";
+
+const promisePool = pool.promise();
 
 export const boardsController = {
-    getAll: (req: Request, res: Response) => {
+    getAll: async (req: Request, res: Response) => {
         try {
+            const [rows, fields] = await promisePool.query("SELECT * FROM boards");
             res.json({
-                message: "Get all boards"
+                data: rows
             })
         } catch(err) {
             console.log(err)
         }
-    }
+    },
 }
