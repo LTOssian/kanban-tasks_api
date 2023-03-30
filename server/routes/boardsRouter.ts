@@ -1,4 +1,4 @@
-import express, { Router, Request, Response, NextFunction } from "express";
+import express, { Router, Response, NextFunction } from "express";
 import { boardsController } from "../controllers/boards.controller";
 import { columnsRouter } from "./columnsRouter";
 import { boardIdRequest } from "../interfaces/interfaces";
@@ -17,6 +17,5 @@ boardsRouter.delete("/:id", boardsController.deleteBoard)
 boardsRouter.use('/:boardId/columns', columnsRouter)
 boardsRouter.param('boardId', (req: boardIdRequest, res: Response, next: NextFunction, boardId) => {
     req.boardId = boardId;
-    console.log(req.boardId)
     next();
 })
