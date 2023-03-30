@@ -1,7 +1,6 @@
-import express, { Express, Router } from "express";
+import express, { Router, Request, Response } from "express";
+import { boardsController } from "../controllers/boards.controller";
 
 export const boardsRouter: Router = express.Router();
-
-const boardsController = require('../controllers/boards.controller');
 
 boardsRouter.get("/", boardsController.getAll);
