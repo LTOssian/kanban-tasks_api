@@ -1,8 +1,6 @@
 import { Request } from "express";
 
-export interface boardIdRequest extends Request {
+export interface RequestSuperSet extends Request {
     boardId ?: string;
-}
-export interface columnIdRequest extends Request {
     columnId ?: string;
 }

@@ -1,7 +1,7 @@
 import express, { Router, Response, NextFunction } from "express";
 import { boardsController } from "../controllers/boards.controller";
 import { columnsRouter } from "./columnsRouter";
-import { boardIdRequest } from "../interfaces/interfaces";
+import { RequestSuperSet } from "../interfaces/interfaces";
 export const boardsRouter: Router = express.Router();
 
 boardsRouter.get("/", boardsController.getAll);
@@ -15,7 +15,7 @@ boardsRouter.put("/:id", boardsController.updateBoard);
 boardsRouter.delete("/:id", boardsController.deleteBoard)
 
 boardsRouter.use('/:boardId/columns', columnsRouter)
-boardsRouter.param('boardId', (req: boardIdRequest, res: Response, next: NextFunction, boardId) => {
+boardsRouter.param('boardId', (req: RequestSuperSet, res: Response, next: NextFunction, boardId) => {
     req.boardId = boardId;
     next();
 })

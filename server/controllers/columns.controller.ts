@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { pool } from "../database";
-import { boardIdRequest } from "../interfaces/interfaces";
+import { RequestSuperSet } from "../interfaces/interfaces";
 
 const promisePool = pool.promise();
 
 export const columnsController = {
-    getAllByBoard: async (req: boardIdRequest, res: Response) => {
+    getAllByBoard: async (req: RequestSuperSet, res: Response) => {
         const [rows, _] = await promisePool.query(
             `SELECT c.name, c.id, c.board_id, COUNT(t.id) as tasks_quantity FROM columns c LEFT JOIN tasks t ON c.id = t.column_id WHERE c.board_id = ${req.boardId} GROUP BY c.id;`
         );
@@ -34,11 +34,11 @@ export const columnsController = {
             });
         }
     },
-    postColumn: async (req: boardIdRequest, res: Response) => {
-        const { status } = req.query;
-        if (status) {
+    postColumn: async (req: RequestSuperSet, res: Response) => {
+        const { name } = req.query;
+        if (name) {
             const [newRow, _] = await promisePool.query(
-                `INSERT INTO columns (id, name, board_id) VALUES (NULL, '${status}', '${req.boardId}');`
+                `INSERT INTO columns (name, board_id) VALUES ('${name}', '${req.boardId}');`
             );
             res.status(201).json({
                 data: newRow
@@ -49,7 +49,7 @@ export const columnsController = {
             });
         }
     },
-    updateColumn: async(req: boardIdRequest, res: Response) => {
+    updateColumn: async(req: RequestSuperSet, res: Response) => {
         const { name } = req.query;
         const { id } = req.params;
         if ( name ) {
