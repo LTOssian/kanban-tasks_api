@@ -5,14 +5,10 @@ import { tasksRouter } from "./tasksRouter";
 
 export const columnsRouter: Router = express.Router();
 
-columnsRouter.get("/", columnsController.getAll);
-
+columnsRouter.get("/", columnsController.getAllByBoard);
 columnsRouter.get("/:id", columnsController.getById);
-
 columnsRouter.post("/", columnsController.postColumn);
-
 columnsRouter.put("/:id", columnsController.updateColumn);
-
 columnsRouter.delete("/:id", columnsController.deleteColumn);
 
 columnsRouter.use('/:columnId/tasks', tasksRouter);
