@@ -22,13 +22,13 @@ export const boardsController = {
     getById: async (req: Request, res: Response) => {
 
         const { id } = req.params
-        const [rows, _] = await promisePool.query(
+        const [row, _] = await promisePool.query(
             `SELECT * FROM boards WHERE id = ${id}`
         );
 
-        if (rows.length) {
+        if (row.length) {
             res.json({
-                data: rows
+                data: row
             })
         } else {
             res.status(404).json({
@@ -37,12 +37,17 @@ export const boardsController = {
         }
     },
     postBoard: async (req: Request, res: Response) => {
-        const { name } = req.body
-        const sqlQuery = `INSERT INTO boards (name) values (${name})`
-
-        const [rows, _] = await promisePool.query(sqlQuery);
-        res.json({
-            data: rows
-        })
+        const { name } = req.query
+        if (name) {
+            const sqlQuery = `INSERT INTO boards (id, name) VALUES (null,"${name}")`
+            const [newRow, _] = await promisePool.query(sqlQuery);    
+            res.status(201).json({
+                data: newRow
+            })
+        } else {
+            res.status(404).json({
+                state: "error"
+            })
+        }
     }
 }
