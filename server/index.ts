@@ -13,6 +13,5 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 app.use('/api/boards', boardsRouter);
-app.use('/api/columns', columnsRouter);
 const PORT:string | number = process.env.PORT || 3000;
 app.listen(PORT);
