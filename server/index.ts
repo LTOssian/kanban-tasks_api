@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import * as dotenv from "dotenv";
 import cors from 'cors';
 import { boardsRouter } from './routes/boardsRouter';
+import { columnsRouter } from './routes/columnsRouter';
 
 dotenv.config()
 
@@ -12,6 +13,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 app.use('/api/boards', boardsRouter);
-
+app.use('/api/columns', columnsRouter);
 const PORT:string | number = process.env.PORT || 3000;
 app.listen(PORT);
