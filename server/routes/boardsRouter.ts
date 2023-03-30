@@ -14,8 +14,9 @@ boardsRouter.put("/:id", boardsController.updateBoard);
 
 boardsRouter.delete("/:id", boardsController.deleteBoard)
 
-boardsRouter.use('/:boardId/tasks', columnsRouter)
+boardsRouter.use('/:boardId/columns', columnsRouter)
 boardsRouter.param('boardId', (req: boardIdRequest, res: Response, next: NextFunction, boardId) => {
     req.boardId = boardId;
+    console.log(req.boardId)
     next();
 })

@@ -5,3 +5,4 @@ export const columnsRouter: Router = express.Router();
 
 columnsRouter.get("/", columnsController.getAll);
 columnsRouter.get("/:id", columnsController.getById);
+columnsRouter.post("/", columnsController.postColumn);
