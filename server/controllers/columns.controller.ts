@@ -19,5 +19,19 @@ export const columnsController = {
             });
         }
     },
-    
+    getById: async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const [row, _] = await promisePool.query(
+            ` select c.*, count(t.id) as number_of_tasks from columns c join tasks t on c.id = t.column_id WHERE c.id = ${id}`
+        );
+        if (id == row[0]["id"]) {
+            res.json({
+                data: row
+            })    
+        } else {
+            res.status(404).json({
+                state: "error"
+            });
+        }
+    }
 }
