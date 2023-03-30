@@ -48,6 +48,30 @@ export const tasksController = {
                 state: "error"
             })
         }
+    },
+    updateTask: async (req: RequestSuperSet, res: Response) => {
+        const { id } = req.params;
+        const { title, description, status } = req.query;
+        if (title && status) {
+            const [updatedRow, _] = await promisePool.query(
+                `UPDATE tasks SET title="${title}", status="${status}", description="${description}" WHERE id = ${id} AND column_id = ${req.columnId}`
+            )
+            res.json({
+                data: updatedRow
+            });
+        } else {
+            res.status(404).json({
+                state: "error"
+            });
+        }
+    },
+    deleteTasks: async (req: RequestSuperSet, res: Response) => {
+        const { id } = req.params;
+        const [deletedRow, _] = await promisePool.query(
+            `DELETE FROM tasks WHERE id=${id}`
+        );
+        res.status(204).json({
+            data: deletedRow
+        });
     }
-
 }
