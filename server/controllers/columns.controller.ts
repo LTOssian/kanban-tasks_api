@@ -7,7 +7,7 @@ const promisePool = pool.promise();
 export const columnsController = {
     getAll: async (req: boardIdRequest, res: Response) => {
         const [rows, _] = await promisePool.query(
-            `SELECT * from columns c WHERE c.board_id = ${req.boardId}`
+            `SELECT c.name, c.id, c.board_id, COUNT(t.id) as tasks_quantity FROM columns c LEFT JOIN tasks t ON c.id = t.column_id WHERE c.board_id = ${req.boardId} GROUP BY c.id;`
         );
         if (rows[0]["id"] != null) {
             res.json({
