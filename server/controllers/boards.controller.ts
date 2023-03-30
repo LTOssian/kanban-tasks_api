@@ -69,11 +69,11 @@ export const boardsController = {
     },
     deleteBoard: async (req: Request, res: Response) => {
         const { id } = req.params;
-        const [deleteRow, _] = await promisePool.query(
+        const [deletedRow, _] = await promisePool.query(
             `DELETE FROM boards WHERE id=${id}`
         );
         res.status(204).json({
-            data: deleteRow
+            data: deletedRow
         })
     }
 }
