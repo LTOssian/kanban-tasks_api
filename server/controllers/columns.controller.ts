@@ -49,4 +49,29 @@ export const columnsController = {
             });
         }
     },
+    updateColumn: async(req: boardIdRequest, res: Response) => {
+        const { name } = req.query;
+        const { id } = req.params;
+        if ( name ) {
+            const [updateRow, _] = await promisePool.query(
+                `UPDATE columns SET name="${name}" WHERE id = ${id}`
+            );
+            res.json({
+                data: updateRow
+            });
+        } else {
+            res.status(404).json({
+                state: "error"
+            });
+        }
+    },
+    deleteColumn: async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const [deletedRow, _]= await promisePool.query(
+            `DELETE FROM columns WHERE id=${id}`
+        );
+        res.status(204).json({
+            data:deletedRow
+        })
+    }
 }
