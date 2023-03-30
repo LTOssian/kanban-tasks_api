@@ -54,7 +54,7 @@ export const tasksController = {
         const { title, description, status } = req.query;
         if (title && status) {
             const [updatedRow, _] = await promisePool.query(
-                `UPDATE tasks SET title="${title}", status="${status}", description="${description}" WHERE id = ${id} AND column_id = ${req.columnId}`
+                `UPDATE tasks SET title="${title}", status=${status}, description="${description}" JOIN columns c ON tasks.column_id = c.id WHERE id = ${id} AND column_id = ${req.columnId}`
             )
             res.json({
                 data: updatedRow

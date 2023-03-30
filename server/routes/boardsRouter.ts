@@ -5,13 +5,9 @@ import { RequestSuperSet } from "../interfaces/interfaces";
 export const boardsRouter: Router = express.Router();
 
 boardsRouter.get("/", boardsController.getAll);
-
 boardsRouter.get("/:id", boardsController.getById);
-
 boardsRouter.post("/", boardsController.postBoard);
-
 boardsRouter.put("/:id", boardsController.updateBoard);
-
 boardsRouter.delete("/:id", boardsController.deleteBoard)
 
 boardsRouter.use('/:boardId/columns', columnsRouter)
