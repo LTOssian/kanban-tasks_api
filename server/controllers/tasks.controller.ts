@@ -9,7 +9,7 @@ export const tasksController = {
         const [rows, _] = await promisePool.query(
             `SELECT t.id, t.title, t.description, t.status, COUNT(st.id) as subtasks_quantity FROM tasks t LEFT JOIN sub_tasks st ON t.id = st.task_id JOIN columns c ON t.column_id = c.id WHERE t.column_id = ${req.columnId} AND c.board_id = ${req.boardId} GROUP BY t.id`
         );
-        if (rows[0]["id"] != null) {
+        if (rows.length) {
             res.json({
                 data: rows
             });
@@ -38,7 +38,7 @@ export const tasksController = {
         const { title, description } = req.query;
         if (title) {
             const [newRow, _] = await promisePool.query(
-                "INSERT INTO `tasks` (`title`, `description`, `column_id`) VALUES (?, ?, ?)", [title, description, req.columnId] 
+                "INSERT INTO `tasks` (`title`, `description`,`column_id`) VALUES (?, ?, ?)", [title, description, req.columnId] 
             ) 
             res.json({
                 data: newRow
@@ -54,18 +54,25 @@ export const tasksController = {
         const { title, description, status } = req.query;
         if (title && status) {
             const [updatedRow, _] = await promisePool.query(
-                `UPDATE tasks SET title="${title}", status=${status}, description="${description}" JOIN columns c ON tasks.column_id = c.id WHERE id = ${id} AND column_id = ${req.columnId}`
+                `UPDATE tasks SET title="${title}", status="${status}", description="${description}" WHERE id = ${id} AND column_id = ${req.columnId}`
             )
-            res.json({
-                data: updatedRow
-            });
+
+            if (updatedRow['changedRows']) {
+                res.json({
+                    data: updatedRow
+                });
+            } else {
+                res.status(404).json({
+                    state: "error"
+                });    
+            }
         } else {
             res.status(404).json({
                 state: "error"
             });
         }
     },
-    deleteTasks: async (req: RequestSuperSet, res: Response) => {
+    deleteTask: async (req: RequestSuperSet, res: Response) => {
         const { id } = req.params;
         const [deletedRow, _] = await promisePool.query(
             `DELETE FROM tasks WHERE id=${id}`
@@ -73,5 +80,5 @@ export const tasksController = {
         res.status(204).json({
             data: deletedRow
         });
-    }
+    },
 }
