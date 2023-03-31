@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { pool } from "../database";
+import { promisePool } from "../database";
 
-const promisePool = pool.promise();
 
 export const boardsController = {
     getAll: async (req: Request, res: Response) => {
