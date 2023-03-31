@@ -9,7 +9,7 @@ export const columnsController = {
         const [rows, _] = await promisePool.query(
             `SELECT c.name, c.id, c.board_id, COUNT(t.id) as tasks_quantity FROM columns c LEFT JOIN tasks t ON c.id = t.column_id WHERE c.board_id = ${req.boardId} GROUP BY c.id;`
         );
-        if (rows[0]["id"] != null) {
+        if (rows.length) {
             res.json({
                 data: rows
             }) 
@@ -19,10 +19,10 @@ export const columnsController = {
             })
         }
     },
-    getById: async (req: Request, res: Response) => {
+    getById: async (req: RequestSuperSet, res: Response) => {
         const { id } = req.params;
         const [row, _] = await promisePool.query(
-            ` select c.*, count(t.id) as number_of_tasks from columns c join tasks t on c.id = t.column_id WHERE c.id = ${id}`
+            ` select c.*, count(t.id) as number_of_tasks from columns c join tasks t on c.id = t.column_id WHERE c.id = ${id} AND c.board_id = ${req.boardId}`
         );
         if (id == row[0]["id"]) {
             res.json({
