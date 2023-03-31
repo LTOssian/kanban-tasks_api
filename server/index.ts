@@ -20,7 +20,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 })
 app.use('/api/boards', boardsRouter);
 
-const PORT:string | number = process.env.PORT || 3000;
+const PORT:string | number = process.env.PORT || 4001;
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
 });
