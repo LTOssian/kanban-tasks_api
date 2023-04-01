@@ -1,4 +1,4 @@
-import express, { Express, Response, Request, NextFunction, ErrorRequestHandler } from 'express';
+import express, { Express, Response, Request, NextFunction } from 'express';
 import * as dotenv from "dotenv";
 import cors from 'cors';
 import { boardsRouter } from './routes/boardsRouter';

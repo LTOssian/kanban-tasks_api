@@ -4,7 +4,7 @@ import { promisePool } from "../database";
 
 export const boardsController = {
     getAll: async (req: Request, res: Response) => {
-        const [rows, _] = await promisePool.query(
+        const [rows] = await promisePool.query(
             `SELECT * FROM boards`
         );
 
@@ -21,7 +21,7 @@ export const boardsController = {
     getById: async (req: Request, res: Response) => {
 
         const { id } = req.params;
-        const [row, _] = await promisePool.query(
+        const [row] = await promisePool.query(
             `SELECT * FROM boards WHERE id = ${id}`
         );
 
@@ -38,7 +38,7 @@ export const boardsController = {
     postBoard: async (req: Request, res: Response) => {
         const { name } = req.query;
         if (name) {
-            const [newRow, _] = await promisePool.query(
+            const [newRow] = await promisePool.query(
                 `INSERT INTO boards (id, name) VALUES (null,"${name}")`
             );    
             res.status(201).json({
@@ -54,7 +54,7 @@ export const boardsController = {
         const { name } = req.query ;
         const { id } = req.params;
         if (name) {
-            const [updatedRow, _] = await promisePool.query(
+            const [updatedRow] = await promisePool.query(
                 `UPDATE boards SET name ="${name}" WHERE id = ${id}`
             );
             res.json({
@@ -68,7 +68,7 @@ export const boardsController = {
     },
     deleteBoard: async (req: Request, res: Response) => {
         const { id } = req.params;
-        const [deletedRow, _] = await promisePool.query(
+        const [deletedRow] = await promisePool.query(
             `DELETE FROM boards WHERE id=${id}`
         );
         res.status(204).json({
