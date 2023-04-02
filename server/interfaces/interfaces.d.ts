@@ -17,3 +17,11 @@ export interface ColumnTable {
     name: string;
     board_id: number;
 }
+
+export interface TasksTable {
+    id: Generated<number>;
+    title: string;
+    description: string | null;
+    status: string | null;
+    column_id: number;
+}
