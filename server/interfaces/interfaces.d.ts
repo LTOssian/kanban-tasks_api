@@ -25,3 +25,10 @@ export interface TasksTable {
     status: string | null;
     column_id: number;
 }
+
+export interface SubTasksTable {
+    id: Generated<number>;
+    title: string;
+    complete_status: 0 | 1;
+    task_id: number;
+}
