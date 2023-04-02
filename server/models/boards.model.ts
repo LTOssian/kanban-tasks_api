@@ -25,6 +25,23 @@ class BoardModel {
         })
         .executeTakeFirstOrThrow()
     }
+
+    async updateBoardOnDB(id: number, name: string) {
+        return await db
+        .updateTable('boards')
+        .set({
+            name: name
+        })
+        .where('boards.id', '=', id)
+        .executeTakeFirstOrThrow()
+    }
+
+    async deleteBoardFromDB(id: number) {
+        return await db
+        .deleteFrom('boards')
+        .where('boards.id', '=', id)
+        .executeTakeFirstOrThrow()
+    }
 }
 
 export const boardModel = new BoardModel(); 

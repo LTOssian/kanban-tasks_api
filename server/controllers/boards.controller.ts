@@ -1,78 +1,89 @@
 import { Request, Response } from "express";
-import { promisePool } from "../database";
-
+import { boardModel } from "../models/boards.model";
 
 export const boardsController = {
     getAll: async (req: Request, res: Response) => {
-        const [rows] = await promisePool.query(
-            `SELECT * FROM boards`
-        );
-
-        if (rows.length) {
-            res.json({
-                data: rows
-            });
-        } else {
+        const rows = await boardModel.getAllFromDB();
+        try {
+            if (rows.length) {
+                res.json({
+                    data: rows
+                }) 
+            }
+        } catch(err) {
             res.status(404).json({
-                state: "error"
-            });
+                state: "error",
+                error: err
+            })
         }
     },
     getById: async (req: Request, res: Response) => {
-
         const { id } = req.params;
-        const [row] = await promisePool.query(
-            `SELECT * FROM boards WHERE id = ${id}`
-        );
-
-        if (row.length) {
-            res.json({
-                data: row
-            });
-        } else {
+        try {
+            const row = await boardModel.getByIdFromDB(parseInt(id, 10));
+            if (row.length) {
+                res.json({
+                    data: row
+                });
+            } else {
+                res.status(404).json({
+                    state: "error"
+                });
+            }
+        } catch(err) {
             res.status(404).json({
-                state: "error"
-            });
+                state: "error",
+                error: err
+            })
         }
+
     },
     postBoard: async (req: Request, res: Response) => {
-        const { name } = req.query;
-        if (name) {
-            const [newRow] = await promisePool.query(
-                `INSERT INTO boards (id, name) VALUES (null,"${name}")`
-            );    
-            res.status(201).json({
-                data: newRow
-            });
-        } else {
+        const name = req.query. name as string;
+        try {
+            if (name) {
+                const newRow = await boardModel.postBoardToDB(name)
+                res.status(201).json({
+                    data: newRow
+                });
+            }
+        } catch(err) {
             res.status(404).json({
-                state: "error"
-            });
+                state: "error",
+                error: err
+            })
         }
     },
     updateBoard: async (req: Request, res: Response) => {
-        const { name } = req.query ;
+        const name = req.query. name as string;
         const { id } = req.params;
-        if (name) {
-            const [updatedRow] = await promisePool.query(
-                `UPDATE boards SET name ="${name}" WHERE id = ${id}`
-            );
-            res.json({
-                data: updatedRow
-            });
-        } else {
+        try {
+            if (name) {
+                const updatedRow = await boardModel.updateBoardOnDB(parseInt(id, 10), name);
+                res.json({
+                    data: updatedRow
+                })
+            } 
+        } catch(err) {
             res.status(404).json({
-                state: "error"
+                state: "error",
+                error: err
             });
         }
     },
     deleteBoard: async (req: Request, res: Response) => {
         const { id } = req.params;
-        const [deletedRow] = await promisePool.query(
-            `DELETE FROM boards WHERE id=${id}`
-        );
-        res.status(204).json({
-            data: deletedRow
-        })
+        try {
+            const deletedRow = await boardModel.deleteBoardFromDB(parseInt(id, 10));
+            res.status(204).json({
+                data: deletedRow
+            })
+    
+        } catch(err) {
+            res.status(404).json({
+                state: "error",
+                error: err
+            });
+        }
     }
 }
