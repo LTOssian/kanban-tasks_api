@@ -18,7 +18,7 @@ export interface ColumnTable {
 }
 
 export interface TasksTable {
-    id: Generated<number>;
+    id: Generated<number> | number;
     title: string;
     description: string | null;
     status: string | null;
@@ -26,7 +26,7 @@ export interface TasksTable {
 }
 
 export interface SubTasksTable {
-    id: Generated<number>;
+    id: Generated<number> | number;
     title: string;
     complete_status: 0 | 1;
     task_id: number;
