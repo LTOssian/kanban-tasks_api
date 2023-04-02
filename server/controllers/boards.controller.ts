@@ -3,8 +3,8 @@ import { boardModel } from "../models/boards.model";
 
 export const boardsController = {
     getAll: async (req: Request, res: Response) => {
-        const rows = await boardModel.getAllFromDB();
         try {
+            const rows = await boardModel.getAllFromDB();
             if (rows.length) {
                 res.json({
                     data: rows
