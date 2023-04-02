@@ -4,11 +4,16 @@ import { Generated, MysqlDialect } from "kysely";
 export interface RequestSuperSet extends Request {
     boardId ?: string;
     columnId ?: string;
-    taskId ?: string
+    taskId ?: string;
 }
 
 export interface BoardTable {
-    id: Generated<number>
-    name: string
+    id: Generated<number>;
+    name: string;
 }
 
+export interface ColumnTable {
+    id: Generated<number>;
+    name: string;
+    board_id: number;
+}
