@@ -2,18 +2,17 @@ import { Request } from "express";
 import { Generated } from "kysely";
 
 export interface RequestSuperSet extends Request {
-    boardId ?: string;
-    columnId ?: string;
-    taskId ?: string;
+    boardId ?: number;
+    columnId ?: number;
+    taskId ?: number;
 }
-
 export interface BoardTable {
     id: Generated<number> | number;
     name: string;
 }
 
 export interface ColumnTable {
-    id: Generated<number>;
+    id: Generated<number> | number;
     name: string;
     board_id: number;
 }
