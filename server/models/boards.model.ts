@@ -9,7 +9,7 @@ class BoardModel {
         .execute()
     }
 
-    async getByIdFromDB(id: number) {
+    async getByIdFromDB(id: number): Promise<BoardTable[]> {
         return await db
         .selectFrom('boards')
         .selectAll()
