@@ -1,7 +1,7 @@
 import express, { NextFunction, Router, Response } from "express";
 import { tasksController } from "../controllers/tasks.controller";
 import { RequestSuperSet } from "../interfaces/interfaces";
-import { subTasksRouter } from "./subtasksRouter";
+// import { subTasksRouter } from "./subtasksRouter";
 
 export const tasksRouter: Router = express.Router();
 
@@ -12,7 +12,7 @@ tasksRouter.put("/:id", tasksController.updateTask);
 tasksRouter.delete("/:id", tasksController.deleteTask);
 // tasksRouter.patch("/:id", tasksController.patchTask);
 
-tasksRouter.use('/:taskId/sub_task', subTasksRouter);
+// tasksRouter.use('/:taskId/sub_task', subTasksRouter);
 tasksRouter.param('taskId', (req: RequestSuperSet, res: Response, next: NextFunction, taskId) => {
     req.taskId = taskId;
     next();
