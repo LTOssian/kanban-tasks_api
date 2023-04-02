@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { Generated, MysqlDialect } from "kysely";
+import { Generated } from "kysely";
 
 export interface RequestSuperSet extends Request {
     boardId ?: string;
@@ -8,7 +8,7 @@ export interface RequestSuperSet extends Request {
 }
 
 export interface BoardTable {
-    id: Generated<number>;
+    id: Generated<number> | number;
     name: string;
 }
 
@@ -31,4 +31,11 @@ export interface SubTasksTable {
     title: string;
     complete_status: 0 | 1;
     task_id: number;
+}
+
+export interface Database {
+    boards: BoardTable;
+    columns: ColumnTable;
+    tasks: TasksTable;
+    sub_tasks: SubTasksTable;
 }
