@@ -1,36 +1,41 @@
 import { Response } from "express";
 import { promisePool } from "../database";
 import { RequestSuperSet } from "../interfaces/interfaces";
+import { taskModel } from "../models/tasks.model";
 
 
 export const tasksController = {
     getAllByColumn: async (req: RequestSuperSet, res: Response) => {
-        const [rows] = await promisePool.query(
-            `SELECT t.id, t.title, t.description, t.status, COUNT(st.id) as subtasks_quantity FROM tasks t LEFT JOIN sub_tasks st ON t.id = st.task_id JOIN columns c ON t.column_id = c.id WHERE t.column_id = ${req.columnId} AND c.board_id = ${req.boardId} GROUP BY t.id`
-        );
-        if (rows.length) {
-            res.json({
-                data: rows
-            });
-        } else {
+        try {
+            const rows = await taskModel.getAllByColumnFromDB(Number(req.columnId));
+            if (rows.length) {
+                res.json({
+                    data: rows
+                });
+            } else {
+                res.status(404).json({
+                    state: "error",
+                });
+            }
+        } catch(err) {
             res.status(404).json({
-                state: "error"
-            });
+                state: "error",
+                error: err
+            })
         }
     },
     getById: async (req: RequestSuperSet, res: Response) => {
         const { id } = req.params;
-        const [row] = await promisePool.query(
-            `SELECT t.id, t.title, t.description, t.status, t.column_id from tasks t JOIN columns c ON t.column_id = c.id WHERE t.id = ${id} AND t.column_id = ${req.columnId} AND c.board_id = ${req.boardId}`
-        );
-        if (row.length) {
+        try {
+            const row = await taskModel.getByIdFromDB(parseInt(id, 10), Number(req.columnId))
             res.json({
                 data: row
             });
-        } else {
+        } catch(err) {
             res.status(404).json({
-                state: "error"
-            });
+                state: "error",
+                error: err
+            })
         }
     },
     postTask: async (req: RequestSuperSet, res: Response) => {
