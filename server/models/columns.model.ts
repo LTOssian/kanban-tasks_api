@@ -2,11 +2,11 @@ import { ColumnTable } from "../interfaces/interfaces";
 import { db } from "../database";
 
 class ColumnModel {
-    async getAllByBoardFromDB(board_id: number): Promise<ColumnTable[]> {
+    async getAllByBoardFromDB(boardId: number): Promise<ColumnTable[]> {
         return await db
         .selectFrom('columns')
         .selectAll()
-        .where('board_id', '=', board_id)
+        .where('board_id', '=', boardId)
         .execute()
     }
 

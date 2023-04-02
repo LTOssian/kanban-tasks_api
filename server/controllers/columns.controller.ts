@@ -26,15 +26,9 @@ export const columnsController = {
         const { id } = req.params;
         try {
             const row = await columnModel.getByIdFromDB(parseInt(id, 10), Number(req.boardId))
-            if (row.id) {
-                res.json({
-                    data: row
-                });
-            } else {
-                res.status(404).json({
-                    state: "error"
-                });
-            } 
+            res.json({
+                data: row
+            });
         } catch(err) {
             res.status(404).json({
                 state: "error",
