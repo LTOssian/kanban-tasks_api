@@ -1,5 +1,4 @@
 import { Response } from "express";
-import { promisePool } from "../database";
 import { RequestSuperSet } from "../interfaces/interfaces";
 import { taskModel } from "../models/tasks.model";
 
@@ -39,48 +38,49 @@ export const tasksController = {
         }
     },
     postTask: async (req: RequestSuperSet, res: Response) => {
-        const { title, description } = req.query;
-        if (title) {
-            const [newRow] = await promisePool.query(
-                "INSERT INTO `tasks` (`title`, `description`,`column_id`) VALUES (?, ?, ?)", [title, description, req.columnId] 
-            ) 
-            res.json({
-                data: newRow
-            })
-        } else {
+        const title = req.query. title as string ;
+        const description = req.query. description as string
+
+        try {
+            if (title) {
+                await taskModel.postTaskToDB(title, description, Number(req.columnId))
+                res.status(201).json();
+            } else {
+                res.status(404).json({
+                    state: "error",
+                })
+            }
+        } catch(err) {
             res.status(404).json({
-                state: "error"
+                state: "error",
+                error: err
             })
         }
     },
     updateTask: async (req: RequestSuperSet, res: Response) => {
-        const { id } = req.params;
-        const { title, description, status } = req.query;
-        if (title && status) {
-            const [updatedRow] = await promisePool.query(
-                `UPDATE tasks SET title="${title}", status="${status}", description="${description}" WHERE id = ${id} AND column_id = ${req.columnId}`
-            )
-
-            if (updatedRow['changedRows']) {
-                res.json({
-                    data: updatedRow
-                });
+        const id = req.params.id;
+        const title = req.query. title as string;
+        const description = req.query. description as string
+        const status = req.query. status as string
+        try {
+            if (title) {
+                await taskModel.updateTaskOnDB(parseInt(id, 10), title, description, Number(req.boardId), status)
+                res.status(201).json({})
             } else {
                 res.status(404).json({
-                    state: "error"
-                });    
+                    state: "error",
+                })
             }
-        } else {
+        } catch(err) {
             res.status(404).json({
-                state: "error"
-            });
+                state: "error",
+                error: err
+            })
         }
     },
     deleteTask: async (req: RequestSuperSet, res: Response) => {
         const { id } = req.params;
-        const [deletedRow] = await promisePool.query(
-            `DELETE FROM tasks WHERE id=${id}`
-        );
+        const deletedRow = await taskModel.deleteTaskFromDB(parseInt(id, 10))
         res.status(204).json({
             data: deletedRow
         });
