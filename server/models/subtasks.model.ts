@@ -9,6 +9,14 @@ class SubTaskModel {
         .where('task_id', '=', taskId)
         .execute()
     }
+
+    async getByIdFromDB (id: number): Promise<SubTasksTable> {
+        return await db
+        .selectFrom('sub_tasks')
+        .selectAll()
+        .where('id', '=', id)
+        .executeTakeFirstOrThrow()
+    }
 }
 
 export const subTaskModel = new SubTaskModel();

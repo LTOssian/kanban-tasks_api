@@ -5,3 +5,4 @@ import { subTasksController } from "../controllers/subtasks.controller";
 export const subTasksRouter: Router = express.Router();
 
 subTasksRouter.get('/', subTasksController.getAllByTasks)
+subTasksRouter.get('/:id', subTasksController.getById)
