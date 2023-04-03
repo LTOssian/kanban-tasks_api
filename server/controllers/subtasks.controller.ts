@@ -1,7 +1,19 @@
-// import { Request, Response } from "express";
-// import { promisePool } from "../database";
-// import { RequestSuperSet } from "../interfaces/interfaces";
+import { Response } from "express";
+import { RequestSuperSet } from "../interfaces/interfaces";
+import { subTaskModel } from "../models/subtasks.model";
 
-// export const subTasksController = {
-
-// }
+export const subTasksController = {
+    getAllByTasks: async (req: RequestSuperSet, res: Response) => {
+        try {
+            const rows = await subTaskModel.getAllByTasksFromDB(Number(req.taskId))
+            res.json({
+                data: rows
+            })
+        } catch(err) {
+            res.status(404).json({
+                state: "error",
+                error: err
+            })
+        }
+    }
+}
