@@ -12,6 +12,6 @@ boardsRouter.delete("/:id", boardsController.deleteBoard)
 
 boardsRouter.use('/:boardId/columns', columnsRouter)
 boardsRouter.param('boardId', (req: RequestSuperSet, res: Response, next: NextFunction, boardId) => {
-    req.boardId = boardId;
+    req.body.boardId = boardId;
     next();
 })

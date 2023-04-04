@@ -5,7 +5,7 @@ import { columnModel } from "../models/columns.model";
 export const columnsController = {
     getAllByBoard: async (req: RequestSuperSet, res: Response) => {
         try {
-            const rows = await columnModel.getAllByBoardFromDB(Number(req.boardId));
+            const rows = await columnModel.getAllByBoardFromDB(Number(req.body.boardId));
             if (rows.length) {
                 res.json({
                     data: rows
@@ -25,7 +25,7 @@ export const columnsController = {
     getById: async (req: RequestSuperSet, res: Response) => {
         const { id } = req.params;
         try {
-            const row = await columnModel.getByIdFromDB(parseInt(id, 10), Number(req.boardId))
+            const row = await columnModel.getByIdFromDB(parseInt(id, 10), Number(req.body.boardId))
             res.json({
                 data: row
             });
@@ -40,7 +40,7 @@ export const columnsController = {
         const name = req.query. name as string;
         try {
             if (name) {
-                await columnModel.postColumnToDB(name, Number(req.boardId))
+                await columnModel.postColumnToDB(name, Number(req.body.boardId))
                 res.status(201).json();
             } else {
                 res.status(404).json({

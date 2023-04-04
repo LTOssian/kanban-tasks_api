@@ -6,6 +6,7 @@ export interface RequestSuperSet extends Request {
     columnId ?: number;
     taskId ?: number;
 }
+
 export interface BoardTable {
     id: Generated<number> | number;
     name: string;

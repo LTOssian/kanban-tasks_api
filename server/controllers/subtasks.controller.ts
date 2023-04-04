@@ -5,7 +5,7 @@ import { subTaskModel } from "../models/subtasks.model";
 export const subTasksController = {
     getAllByTasks: async (req: RequestSuperSet, res: Response) => {
         try {
-            const rows = await subTaskModel.getAllByTasksFromDB(Number(req.taskId))//ajouter la verif de task et column
+            const rows = await subTaskModel.getAllByTasksFromDB(Number(req.body.taskId))//ajouter la verif de task et column
             res.json({
                 data: rows
             })
@@ -19,7 +19,7 @@ export const subTasksController = {
     getById: async (req: RequestSuperSet, res: Response) => {
         const id = req.params.id;
         try {
-            const row = await subTaskModel.getByIdFromDB(parseInt(id, 10), Number(req.taskId)); //ajouter la verif de task et column
+            const row = await subTaskModel.getByIdFromDB(parseInt(id, 10), Number(req.body.taskId)); //ajouter la verif de task et column
             res.json({
                 data: row
             })
@@ -34,7 +34,7 @@ export const subTasksController = {
         const title = req.query. title as string;
         try {
             if (title) {
-                await subTaskModel.postSubTaskToDB(title, Number(req.taskId));
+                await subTaskModel.postSubTaskToDB(title, Number(req.body.taskId));
                 res.status(201).json();
             } 
         } catch(err) {

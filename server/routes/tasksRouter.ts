@@ -14,6 +14,6 @@ tasksRouter.delete("/:id", tasksController.deleteTask);
 
 tasksRouter.use('/:taskId/subtasks', subTasksRouter);
 tasksRouter.param('taskId', (req: RequestSuperSet, res: Response, next: NextFunction, taskId) => {
-    req.taskId = taskId;
+    req.body.taskId = taskId;
     next();
 })

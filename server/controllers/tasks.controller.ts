@@ -6,7 +6,7 @@ import { taskModel } from "../models/tasks.model";
 export const tasksController = {
     getAllByColumn: async (req: RequestSuperSet, res: Response) => {
         try {
-            const rows = await taskModel.getAllByColumnFromDB(Number(req.columnId));
+            const rows = await taskModel.getAllByColumnFromDB(Number(req.body.columnId));
                 res.json({
                     data: rows
                 });
@@ -20,7 +20,7 @@ export const tasksController = {
     getById: async (req: RequestSuperSet, res: Response) => {
         const { id } = req.params;
         try {
-            const row = await taskModel.getByIdFromDB(parseInt(id, 10), Number(req.columnId))
+            const row = await taskModel.getByIdFromDB(parseInt(id, 10), Number(req.body.columnId))
             res.json({
                 data: row
             });
@@ -37,7 +37,7 @@ export const tasksController = {
 
         try {
             if (title) {
-                await taskModel.postTaskToDB(title, description, Number(req.columnId))
+                await taskModel.postTaskToDB(title, description, Number(req.body.columnId))
                 res.status(201).json();
             } else {
                 res.status(404).json({

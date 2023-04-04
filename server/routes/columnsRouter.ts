@@ -13,6 +13,6 @@ columnsRouter.delete("/:id", columnsController.deleteColumn);
 
 columnsRouter.use('/:columnId/tasks', tasksRouter);
 columnsRouter.param('columnId', (req: RequestSuperSet, res: Response, next: NextFunction, columnId) => {
-    req.columnId = columnId;
+    req.body.columnId = columnId;
     next();
 })
