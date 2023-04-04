@@ -5,3 +5,7 @@ import { subTasksController } from "../controllers/subtasks.controller";
 export const subTasksRouter: Router = express.Router();
 
 subTasksRouter.get('/', subTasksController.getAllByTasks)
+subTasksRouter.get('/:id', subTasksController.getById)
+subTasksRouter.post('/', subTasksController.postSubTask)
+subTasksRouter.put('/:id', subTasksController.updateSubTask)
+subTasksRouter.delete('/:id', subTasksController.deleteSubTask)
