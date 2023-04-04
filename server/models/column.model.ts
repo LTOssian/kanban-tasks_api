@@ -4,7 +4,7 @@ import { db } from "../database";
 class ColumnModel {
     async getAllByBoardFromDB(boardId: number): Promise<ColumnTable[]> {
         return await db
-        .selectFrom('columns')
+        .selectFrom('column')
         .selectAll()
         .where('board_id', '=', boardId)
         .execute()
@@ -12,18 +12,18 @@ class ColumnModel {
 
     async getByIdFromDB(id: number, boardId: number): Promise<ColumnTable> {
         return await db
-        .selectFrom('columns')
+        .selectFrom('column')
         .selectAll()
         .where(({ and, cmpr }) => and([
             cmpr('id', '=', id),
-            cmpr('columns.board_id', '=', boardId)
+            cmpr('column.board_id', '=', boardId)
           ]))
         .executeTakeFirstOrThrow()
     }
 
     async postColumnToDB(name: string, boardId: number) {
         return await db
-        .insertInto('columns')
+        .insertInto('column')
         .values({
             name: name,
             board_id: boardId
@@ -33,18 +33,18 @@ class ColumnModel {
 
     async updateColumnOnDB(id: number, name: string) {
         return await db
-        .updateTable('columns')
+        .updateTable('column')
         .set({
             name: name
         })
-        .where('columns.id', '=', id)
+        .where('column.id', '=', id)
         .executeTakeFirstOrThrow()
     }
 
     async deleteColumnFromDB(id: number) {
         return await db
-        .deleteFrom('columns')
-        .where('columns.id', '=', id)
+        .deleteFrom('column')
+        .where('column.id', '=', id)
         .executeTakeFirstOrThrow()
     }
 }

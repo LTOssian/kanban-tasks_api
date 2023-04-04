@@ -1,29 +1,29 @@
-import { SubTasksTable } from "../interfaces/interfaces";
+import { SubTaskTable } from "../interfaces/interfaces";
 import { db } from "../database";
 
 class SubTaskModel {
-    async getAllByTasksFromDB (taskId: number): Promise<SubTasksTable[]> {
+    async getAllByTasksFromDB (taskId: number): Promise<SubTaskTable[]> {
         return await db
-        .selectFrom('sub_tasks')
+        .selectFrom('sub_task')
         .selectAll()
         .where('task_id', '=', taskId)
         .execute()
     }
 
-    async getByIdFromDB (id: number, taskId: number): Promise<SubTasksTable> {
+    async getByIdFromDB (id: number, taskId: number): Promise<SubTaskTable> {
         return await db
-        .selectFrom('sub_tasks')
+        .selectFrom('sub_task')
         .selectAll()
         .where(({and, cmpr}) => and([
             cmpr('id', '=', id),
-            cmpr('sub_tasks.task_id', '=', taskId)
+            cmpr('sub_task.task_id', '=', taskId)
         ]))
         .executeTakeFirstOrThrow()
     }
 
     async postSubTaskToDB (title: string, taskId: number) {
         return await db
-        .insertInto('sub_tasks')
+        .insertInto('sub_task')
         .values({
             title: title,
             complete_status: 0,
@@ -34,7 +34,7 @@ class SubTaskModel {
 
     async updateSubTaskOnDB(id: number, title: string, complete_status: boolean) {
         return await db
-        .updateTable('sub_tasks')
+        .updateTable('sub_task')
         .set({
             title: title,
             complete_status: complete_status ? 1 : 0,
@@ -45,7 +45,7 @@ class SubTaskModel {
 
     async deleteSubTask(id: number) {
         return await db
-        .deleteFrom('sub_tasks')
+        .deleteFrom('sub_task')
         .where('id', '=', id)
         .executeTakeFirstOrThrow()
     }

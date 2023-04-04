@@ -18,7 +18,7 @@ export interface ColumnTable {
     board_id: number;
 }
 
-export interface TasksTable {
+export interface TaskTable {
     id: Generated<number> | number;
     title: string;
     description: string | null;
@@ -26,16 +26,23 @@ export interface TasksTable {
     column_id: number;
 }
 
-export interface SubTasksTable {
+export interface SubTaskTable {
     id: Generated<number> | number;
     title: string;
     complete_status: 0 | 1;
     task_id: number;
 }
 
+export interface UserTable {
+    id: Generated<string> | string;
+    email: string;
+    password: string;
+    data_created: Date;
+}
+
 export interface Database {
-    boards: BoardTable;
-    columns: ColumnTable;
-    tasks: TasksTable;
-    sub_tasks: SubTasksTable;
+    board: BoardTable;
+    column: ColumnTable;
+    task: TaskTable;
+    sub_task: SubTaskTable;
 }

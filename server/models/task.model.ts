@@ -1,28 +1,28 @@
-import { TasksTable } from "../interfaces/interfaces";
+import { TaskTable } from "../interfaces/interfaces";
 import { db } from "../database";
 
 class TaskModel {
-    async getAllByColumnFromDB (columnId: number): Promise<TasksTable[]> {
+    async getAllByColumnFromDB (columnId: number): Promise<TaskTable[]> {
         return await db
-        .selectFrom('tasks')
+        .selectFrom('task')
         .selectAll()
         .where('column_id', '=', columnId)
         .execute()
     }
 
-    async getByIdFromDB(id: number, columnId: number): Promise<TasksTable> {
+    async getByIdFromDB(id: number, columnId: number): Promise<TaskTable> {
         return await db
-        .selectFrom('tasks')
+        .selectFrom('task')
         .selectAll()
         .where(({ and, cmpr}) => and([
             cmpr('id', '=', id),
-            cmpr('tasks.column_id', '=', columnId)
+            cmpr('task.column_id', '=', columnId)
         ]))
         .executeTakeFirstOrThrow()
     }
 
     async getStatusFromDB(columnId: number) {
-        return await db.selectFrom('columns')
+        return await db.selectFrom('column')
         .select('name')
         .where('id', '=', columnId)
         .executeTakeFirst()
@@ -32,7 +32,7 @@ class TaskModel {
         const status = await this.getStatusFromDB(columnId)
 
         return await db
-        .insertInto('tasks')
+        .insertInto('task')
         .values({
             title: title,
             description: description,
@@ -44,7 +44,7 @@ class TaskModel {
 
     async updateColumnID(boardId: number, status: string) {
         return await db
-        .selectFrom('columns')
+        .selectFrom('column')
         .selectAll()
         .where(({ and, cmpr}) => and([
             cmpr('name', '=', status),
@@ -58,7 +58,7 @@ class TaskModel {
         const statusUpdated = await this.getStatusFromDB(columnId)
 
         return await db
-        .updateTable('tasks')
+        .updateTable('task')
         .set({
             title: title,
             description: description,
@@ -71,8 +71,8 @@ class TaskModel {
 
     async deleteTaskFromDB(id: number) {
         return await db
-        .deleteFrom('tasks')
-        .where('tasks.id', '=', id)
+        .deleteFrom('task')
+        .where('task.id', '=', id)
         .executeTakeFirstOrThrow()
     }
 }

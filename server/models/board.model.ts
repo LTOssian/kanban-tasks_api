@@ -4,14 +4,14 @@ import { db } from "../database";
 class BoardModel {
     async getAllFromDB(): Promise<BoardTable[]> {
         return await db
-        .selectFrom('boards')
+        .selectFrom('board')
         .selectAll()
         .execute()
     }
 
     async getByIdFromDB(id: number): Promise<BoardTable[]> {
         return await db
-        .selectFrom('boards')
+        .selectFrom('board')
         .selectAll()
         .where('id', '=', id)
         .execute()
@@ -19,7 +19,7 @@ class BoardModel {
 
     async postBoardToDB(name: string) {
         return await db
-        .insertInto('boards')
+        .insertInto('board')
         .values({
             name: name
         })
@@ -28,18 +28,18 @@ class BoardModel {
 
     async updateBoardOnDB(id: number, name: string) {
         return await db
-        .updateTable('boards')
+        .updateTable('board')
         .set({
             name: name
         })
-        .where('boards.id', '=', id)
+        .where('board.id', '=', id)
         .executeTakeFirstOrThrow()
     }
 
     async deleteBoardFromDB(id: number) {
         return (await db
-        .deleteFrom('boards')
-        .where('boards.id', '=', id)
+        .deleteFrom('board')
+        .where('board.id', '=', id)
         .executeTakeFirstOrThrow()
         )
     }
