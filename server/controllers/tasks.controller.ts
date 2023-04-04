@@ -7,18 +7,12 @@ export const tasksController = {
     getAllByColumn: async (req: RequestSuperSet, res: Response) => {
         try {
             const rows = await taskModel.getAllByColumnFromDB(Number(req.columnId));
-            if (rows.length) {
                 res.json({
                     data: rows
                 });
-            } else {
-                res.status(404).json({
-                    state: "error",
-                });
-            }
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
@@ -31,8 +25,8 @@ export const tasksController = {
                 data: row
             });
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
@@ -47,12 +41,12 @@ export const tasksController = {
                 res.status(201).json();
             } else {
                 res.status(404).json({
-                    state: "error",
+                    state: "ValidationError",
                 })
             }
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
@@ -68,21 +62,28 @@ export const tasksController = {
                 res.status(201).json({})
             } else {
                 res.status(404).json({
-                    state: "error",
+                    state: "ValidationError",
                 })
             }
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
     },
     deleteTask: async (req: RequestSuperSet, res: Response) => {
         const { id } = req.params;
-        const deletedRow = await taskModel.deleteTaskFromDB(parseInt(id, 10))
-        res.status(204).json({
-            data: deletedRow
-        });
+        try {
+            const deletedRow = await taskModel.deleteTaskFromDB(parseInt(id, 10))
+            res.status(204).json({
+                data: deletedRow
+            });    
+        } catch(err) {
+            res.status(500).json({
+                state: "DatabaseError",
+                error: err
+            })
+        }
     },
 }

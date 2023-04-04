@@ -5,14 +5,12 @@ export const boardsController = {
     getAll: async (req: Request, res: Response) => {
         try {
             const rows = await boardModel.getAllFromDB();
-            if (rows.length) {
-                res.json({
-                    data: rows
-                }) 
-            }
+            res.json({
+                data: rows
+            })
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
@@ -21,18 +19,12 @@ export const boardsController = {
         const { id } = req.params;
         try {
             const row = await boardModel.getByIdFromDB(parseInt(id, 10));
-            if (row.length) {
-                res.json({
-                    data: row
-                });
-            } else {
-                res.status(404).json({
-                    state: "error"
-                });
-            }
+            res.json({
+                data: row
+            });
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
@@ -46,10 +38,14 @@ export const boardsController = {
                 res.status(201).json({
                     data: newRow
                 });
+            } else {
+                res.status(404).json({
+                    state: "ValidationError"
+                })
             }
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
@@ -63,10 +59,14 @@ export const boardsController = {
                 res.json({
                     data: updatedRow
                 })
-            } 
+            } else {
+                res.status(404).json({
+                    state: "ValidationError"
+                })
+            }
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             });
         }
@@ -78,10 +78,9 @@ export const boardsController = {
             res.status(204).json({
                 data: deletedRow
             })
-    
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             });
         }

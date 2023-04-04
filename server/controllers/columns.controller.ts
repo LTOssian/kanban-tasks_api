@@ -16,8 +16,8 @@ export const columnsController = {
                 });
             } 
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
@@ -30,8 +30,8 @@ export const columnsController = {
                 data: row
             });
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
@@ -42,15 +42,19 @@ export const columnsController = {
             if (name) {
                 await columnModel.postColumnToDB(name, Number(req.boardId))
                 res.status(201).json();
+            } else {
+                res.status(404).json({
+                    state: "ValidationError",
+                })
             }
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
     },
-    updateColumn: async(req: RequestSuperSet, res: Response) => {
+    updateColumn: async(req: Request, res: Response) => {
         const name = req.query. name as string;
         const { id } = req.params;
         try {
@@ -59,12 +63,12 @@ export const columnsController = {
                 res.json();
             } else {
                 res.status(404).json({
-                    state: "error"
+                    state: "ValidationError"
                 });
             }    
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }
@@ -75,8 +79,8 @@ export const columnsController = {
             await columnModel.deleteColumnFromDB(parseInt(id));
             res.status(204).json()
         } catch(err) {
-            res.status(404).json({
-                state: "error",
+            res.status(500).json({
+                state: "DatabaseError",
                 error: err
             })
         }

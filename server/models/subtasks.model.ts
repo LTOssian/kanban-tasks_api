@@ -10,11 +10,14 @@ class SubTaskModel {
         .execute()
     }
 
-    async getByIdFromDB (id: number): Promise<SubTasksTable> {
+    async getByIdFromDB (id: number, taskId: number): Promise<SubTasksTable> {
         return await db
         .selectFrom('sub_tasks')
         .selectAll()
-        .where('id', '=', id)
+        .where(({and, cmpr}) => and([
+            cmpr('id', '=', id),
+            cmpr('sub_tasks.task_id', '=', taskId)
+        ]))
         .executeTakeFirstOrThrow()
     }
 

@@ -37,10 +37,11 @@ class BoardModel {
     }
 
     async deleteBoardFromDB(id: number) {
-        return await db
+        return (await db
         .deleteFrom('boards')
         .where('boards.id', '=', id)
         .executeTakeFirstOrThrow()
+        )
     }
 }
 
