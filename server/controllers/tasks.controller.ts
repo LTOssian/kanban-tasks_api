@@ -42,6 +42,7 @@ export const tasksController = {
             } else {
                 res.status(404).json({
                     state: "ValidationError",
+                    message: "title is required"
                 })
             }
         } catch(err) {
@@ -63,6 +64,7 @@ export const tasksController = {
             } else {
                 res.status(404).json({
                     state: "ValidationError",
+                    message: "title is required"
                 })
             }
         } catch(err) {

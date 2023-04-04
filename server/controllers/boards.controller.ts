@@ -40,7 +40,8 @@ export const boardsController = {
                 });
             } else {
                 res.status(404).json({
-                    state: "ValidationError"
+                    state: "ValidationError",
+                    message: "name is required"
                 })
             }
         } catch(err) {
@@ -61,7 +62,8 @@ export const boardsController = {
                 })
             } else {
                 res.status(404).json({
-                    state: "ValidationError"
+                    state: "ValidationError",
+                    message: "name is required"
                 })
             }
         } catch(err) {

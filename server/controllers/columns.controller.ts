@@ -6,15 +6,9 @@ export const columnsController = {
     getAllByBoard: async (req: RequestSuperSet, res: Response) => {
         try {
             const rows = await columnModel.getAllByBoardFromDB(Number(req.body.boardId));
-            if (rows.length) {
-                res.json({
-                    data: rows
-                }) 
-            } else {
-                res.status(404).json({
-                    state: "error"
-                });
-            } 
+            res.json({
+                data: rows
+            }) 
         } catch(err) {
             res.status(500).json({
                 state: "DatabaseError",
@@ -45,6 +39,7 @@ export const columnsController = {
             } else {
                 res.status(404).json({
                     state: "ValidationError",
+                    message: "name is required"
                 })
             }
         } catch(err) {
@@ -63,9 +58,10 @@ export const columnsController = {
                 res.json();
             } else {
                 res.status(404).json({
-                    state: "ValidationError"
-                });
-            }    
+                    state: "ValidationError",
+                    message: "name is required"
+                })
+            } 
         } catch(err) {
             res.status(500).json({
                 state: "DatabaseError",
