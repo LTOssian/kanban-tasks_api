@@ -60,7 +60,7 @@ export const tasksController = {
         try {
             if (title) {
                 await taskModel.updateTaskOnDB(parseInt(id, 10), title, description, Number(req.boardId), status)
-                res.status(201).json({})
+                res.status(201).json()
             } else {
                 res.status(404).json({
                     state: "ValidationError",
@@ -77,10 +77,8 @@ export const tasksController = {
     deleteTask: async (req: RequestSuperSet, res: Response) => {
         const { id } = req.params;
         try {
-            const deletedRow = await taskModel.deleteTaskFromDB(parseInt(id, 10))
-            res.status(204).json({
-                data: deletedRow
-            });    
+            await taskModel.deleteTaskFromDB(parseInt(id, 10))
+            res.status(204).json();    
         } catch(err) {
             res.status(500).json({
                 state: "DatabaseError",

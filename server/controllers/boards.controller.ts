@@ -34,10 +34,8 @@ export const boardsController = {
         const name = req.query. name as string;
         try {
             if (name) {
-                const newRow = await boardModel.postBoardToDB(name)
-                res.status(201).json({
-                    data: newRow
-                });
+                await boardModel.postBoardToDB(name)
+                res.status(201).json();
             } else {
                 res.status(404).json({
                     state: "ValidationError",
@@ -56,10 +54,8 @@ export const boardsController = {
         const { id } = req.params;
         try {
             if (name) {
-                const updatedRow = await boardModel.updateBoardOnDB(parseInt(id, 10), name);
-                res.json({
-                    data: updatedRow
-                })
+                await boardModel.updateBoardOnDB(parseInt(id, 10), name);
+                res.json()
             } else {
                 res.status(404).json({
                     state: "ValidationError",
@@ -76,10 +72,8 @@ export const boardsController = {
     deleteBoard: async (req: Request, res: Response) => {
         const { id } = req.params;
         try {
-            const deletedRow = await boardModel.deleteBoardFromDB(parseInt(id, 10));
-            res.status(204).json({
-                data: deletedRow
-            })
+            await boardModel.deleteBoardFromDB(parseInt(id, 10));
+            res.status(204).json({})
         } catch(err) {
             res.status(500).json({
                 state: "DatabaseError",
