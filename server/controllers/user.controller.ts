@@ -90,5 +90,20 @@ export const userController = {
                 error: err
             })
         }
+    },
+
+    deleteUser: async (req: Request, res: Response) => {
+        const password = req.query.password as string;
+        const id = req.params.id
+
+        try {
+            await userModel.deleteUserFromDB(id, password)
+            res.status(204).json()
+        } catch(err) {
+            res.status(502).json({
+                state: "DatabaseError",
+                error: err
+            })
+        }
     }
 }
