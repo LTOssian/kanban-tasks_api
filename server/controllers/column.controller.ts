@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { RequestSuperSet } from "../interfaces/interfaces";
-import { columnModel } from "../models/columns.model";
+import { columnModel } from "../models/column.model";
 
 export const columnsController = {
     getAllByBoard: async (req: RequestSuperSet, res: Response) => {
@@ -28,7 +28,7 @@ export const columnsController = {
                 state: "DatabaseError",
                 error: err
             })
-        }
+        } 
     },
     postColumn: async (req: RequestSuperSet, res: Response) => {
         const name = req.query. name as string;

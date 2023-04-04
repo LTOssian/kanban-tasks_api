@@ -37,10 +37,11 @@ export interface UserTable {
     id: Generated<string> | string;
     email: string;
     password: string;
-    data_created: Date;
+    data_created: string;
 }
 
 export interface Database {
+    user: UserTable;
     board: BoardTable;
     column: ColumnTable;
     task: TaskTable;

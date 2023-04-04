@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { boardModel } from "../models/boards.model";
+import { boardModel } from "../models/board.model";
 
-export const boardsController = {
+export const boardController = {
     getAll: async (req: Request, res: Response) => {
         try {
             const rows = await boardModel.getAllFromDB();
@@ -9,7 +9,7 @@ export const boardsController = {
                 data: rows
             })
         } catch(err) {
-            res.status(500).json({
+            res.status(502).json({
                 state: "DatabaseError",
                 error: err
             })
@@ -23,7 +23,7 @@ export const boardsController = {
                 data: row
             });
         } catch(err) {
-            res.status(500).json({
+            res.status(502).json({
                 state: "DatabaseError",
                 error: err
             })
@@ -43,7 +43,7 @@ export const boardsController = {
                 })
             }
         } catch(err) {
-            res.status(500).json({
+            res.status(502).json({
                 state: "DatabaseError",
                 error: err
             })
@@ -63,7 +63,7 @@ export const boardsController = {
                 })
             }
         } catch(err) {
-            res.status(500).json({
+            res.status(502).json({
                 state: "DatabaseError",
                 error: err
             });
@@ -75,7 +75,7 @@ export const boardsController = {
             await boardModel.deleteBoardFromDB(parseInt(id, 10));
             res.status(204).json({})
         } catch(err) {
-            res.status(500).json({
+            res.status(502).json({
                 state: "DatabaseError",
                 error: err
             });

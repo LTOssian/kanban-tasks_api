@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import { RequestSuperSet } from "../interfaces/interfaces";
-import { subTaskModel } from "../models/subtasks.model";
+import { subTaskModel } from "../models/subtask.model";
 
 export const subTasksController = {
     getAllByTasks: async (req: RequestSuperSet, res: Response) => {

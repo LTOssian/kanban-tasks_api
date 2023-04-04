@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { RequestSuperSet } from "../interfaces/interfaces";
-import { taskModel } from "../models/tasks.model";
+import { taskModel } from "../models/task.model";
 
 
 export const tasksController = {

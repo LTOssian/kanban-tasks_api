@@ -1,5 +1,5 @@
 import express, { NextFunction, Router, Response } from "express";
-import { tasksController } from "../controllers/tasks.controller";
+import { tasksController } from "../controllers/task.controller";
 import { RequestSuperSet } from "../interfaces/interfaces";
 import { subTasksRouter } from "./subtasksRouter";
 
