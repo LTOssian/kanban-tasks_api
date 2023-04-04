@@ -10,7 +10,6 @@ tasksRouter.get("/:id", tasksController.getById);
 tasksRouter.post("/", tasksController.postTask);
 tasksRouter.put("/:id", tasksController.updateTask);
 tasksRouter.delete("/:id", tasksController.deleteTask);
-// tasksRouter.patch("/:id", tasksController.patchTask);
 
 tasksRouter.use('/:taskId/subtasks', subTasksRouter);
 tasksRouter.param('taskId', (req: RequestSuperSet, res: Response, next: NextFunction, taskId) => {

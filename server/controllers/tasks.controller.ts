@@ -59,7 +59,7 @@ export const tasksController = {
         const status = req.query. status as string
         try {
             if (title) {
-                await taskModel.updateTaskOnDB(parseInt(id, 10), title, description, Number(req.boardId), status)
+                await taskModel.updateTaskOnDB(parseInt(id, 10), title, description, Number(req.body.boardId), status)
                 res.status(201).json()
             } else {
                 res.status(404).json({
