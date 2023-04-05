@@ -55,7 +55,7 @@ export const userController = {
     updatePassword: async (req: Request, res: Response) => {
         const old_password = req.query.old_password as string;
         const new_password = req.query.new_password as string;
-        const email = req.query.password as string;
+        const email = req.query.email as string;
         const id = req.params.id;
         try {
             if (email && new_password && old_password) {
@@ -64,7 +64,7 @@ export const userController = {
             } else {
                 res.status(404).json({
                     state: "ValidationError",
-                    message: "password is required"
+                    message: "Email / Password required"
                 })
             }
         } catch(err) {
@@ -85,8 +85,8 @@ export const userController = {
                 data: user
             })
         } catch(err) {
-            res.status(502).json({
-                state: "DatabaseError",
+            res.status(404).json({
+                state: "ValidationError",
                 error: err
             })
         }

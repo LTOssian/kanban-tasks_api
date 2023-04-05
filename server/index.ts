@@ -1,8 +1,8 @@
 import express, { Express, Response, Request, NextFunction } from 'express';
 import * as dotenv from "dotenv";
 import cors from 'cors';
-import { boardsRouter } from './routes/boardsRouter';
 import morgan from 'morgan';
+import { userRouter } from './routes/userRouter';
 
 dotenv.config()
 
@@ -18,7 +18,7 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
     res.setHeader("Content-Type", "application/json");
     next();
 })
-app.use('/api/boards', boardsRouter);
+app.use('/api/v1/user', userRouter);
 
 const PORT:string | number = process.env.PORT || 4001;
 app.listen(PORT, () => {
