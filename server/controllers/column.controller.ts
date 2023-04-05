@@ -6,9 +6,14 @@ export const columnsController = {
     getAllByBoard: async (req: RequestSuperSet, res: Response) => {
         try {
             const rows = await columnModel.getAllByBoardFromDB(Number(req.body.boardId));
-            res.json({
+            rows.length ? res.json({
                 data: rows
-            }) 
+            })
+            : res.status(404).json({
+                state: "error",
+                error: "Not found"
+            })
+            
         } catch(err) {
             res.status(500).json({
                 state: "DatabaseError",

@@ -2,6 +2,7 @@ import express, { Router, Response, NextFunction } from "express";
 import { boardController } from "../controllers/board.controller";
 import { columnsRouter } from "./columnsRouter";
 import { RequestSuperSet } from "../interfaces/interfaces";
+
 export const boardsRouter: Router = express.Router();
 
 boardsRouter.get("/", boardController.getAll);

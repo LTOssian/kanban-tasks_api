@@ -8,6 +8,7 @@ export const userController = {
             res.json({
                 data: rows
             })
+            
         } catch(err) {
             res.status(502).json({
                 state: "DatabaseError",
@@ -20,8 +21,13 @@ export const userController = {
         const id = req.params.id;
         try {
             const row = await userModel.getByIdFromDB(id);
+            row ? 
             res.json({
                 data: row
+            })
+            : res.status(404).json({
+                state: "error",
+                error: "Not found"
             })
         } catch(err) {
             res.status(502).json({

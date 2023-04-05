@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { boardModel } from "../models/board.model";
+import { RequestSuperSet } from "../interfaces/interfaces";
 
 export const boardController = {
-    getAll: async (req: Request, res: Response) => {
+    getAll: async (req: RequestSuperSet, res: Response) => {
         try {
-            const rows = await boardModel.getAllFromDB();
+            const rows = await boardModel.getAllFromDB(req.body.userId);
             res.json({
                 data: rows
             })
@@ -18,7 +19,7 @@ export const boardController = {
     getById: async (req: Request, res: Response) => {
         const { id } = req.params;
         try {
-            const row = await boardModel.getByIdFromDB(parseInt(id, 10));
+            const row = await boardModel.getByIdFromDB(parseInt(id, 10), req.body.userId);
             res.json({
                 data: row
             });
@@ -34,7 +35,7 @@ export const boardController = {
         const name = req.query. name as string;
         try {
             if (name) {
-                await boardModel.postBoardToDB(name)
+                await boardModel.postBoardToDB(name, req.body.userId)
                 res.status(201).json();
             } else {
                 res.status(404).json({
@@ -52,16 +53,17 @@ export const boardController = {
     updateBoard: async (req: Request, res: Response) => {
         const name = req.query. name as string;
         const { id } = req.params;
+
+        if (!name) {
+            res.status(404).json({
+                state: "ValidationError",
+                message: "name is required"
+            })
+        }
+
         try {
-            if (name) {
-                await boardModel.updateBoardOnDB(parseInt(id, 10), name);
-                res.json()
-            } else {
-                res.status(404).json({
-                    state: "ValidationError",
-                    message: "name is required"
-                })
-            }
+            await boardModel.updateBoardOnDB(parseInt(id, 10), name, req.body.userId);
+            res.json()
         } catch(err) {
             res.status(502).json({
                 state: "DatabaseError",
@@ -72,7 +74,7 @@ export const boardController = {
     deleteBoard: async (req: Request, res: Response) => {
         const { id } = req.params;
         try {
-            await boardModel.deleteBoardFromDB(parseInt(id, 10));
+            await boardModel.deleteBoardFromDB(parseInt(id, 10), req.body.userId);
             res.status(204).json({})
         } catch(err) {
             res.status(502).json({

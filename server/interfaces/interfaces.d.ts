@@ -5,11 +5,13 @@ export interface RequestSuperSet extends Request {
     boardId ?: number;
     columnId ?: number;
     taskId ?: number;
+    userId ?: string;
 }
 
 export interface BoardTable {
     id: Generated<number> | number;
     name: string;
+    user_id: Generated<string> | string;
 }
 
 export interface ColumnTable {

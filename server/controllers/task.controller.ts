@@ -60,7 +60,7 @@ export const tasksController = {
         try {
             if (title) {
                 await taskModel.updateTaskOnDB(parseInt(id, 10), title, description, Number(req.body.boardId), status)
-                res.status(201).json()
+                res.json()
             } else {
                 res.status(404).json({
                     state: "ValidationError",

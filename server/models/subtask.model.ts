@@ -43,10 +43,13 @@ class SubTaskModel {
         .executeTakeFirstOrThrow()
     }
 
-    async deleteSubTask(id: number) {
+    async deleteSubTask(id: number, taskId: number) {
         return await db
         .deleteFrom('sub_task')
-        .where('id', '=', id)
+        .where(({ and, cmpr}) => and([
+            cmpr('id', '=', id),
+            cmpr('task_id', '=', taskId)
+        ]))
         .executeTakeFirstOrThrow()
     }
 }
