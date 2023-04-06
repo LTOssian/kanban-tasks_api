@@ -1,7 +1,7 @@
 import express, { NextFunction, Router, Response } from "express";
 import { columnsController } from "../controllers/column.controller";
 import { RequestSuperSet } from "../interfaces/interfaces";
-import { tasksRouter } from "./tasksRouter";
+import { tasksRouter } from "./taskRouter";
 
 export const columnsRouter: Router = express.Router();
 

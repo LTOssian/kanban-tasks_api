@@ -1,7 +1,7 @@
 import express, { NextFunction, Router, Response } from "express";
 import { tasksController } from "../controllers/task.controller";
 import { RequestSuperSet } from "../interfaces/interfaces";
-import { subTasksRouter } from "./subtasksRouter";
+import { subTasksRouter } from "./subtaskRouter";
 
 export const tasksRouter: Router = express.Router();
 

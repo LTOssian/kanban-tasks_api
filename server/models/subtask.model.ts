@@ -32,14 +32,17 @@ class SubTaskModel {
         .executeTakeFirstOrThrow()
     }
 
-    async updateSubTaskOnDB(id: number, title: string, complete_status: boolean) {
+    async updateSubTaskOnDB(id: number, title: string, complete_status: boolean, taskId: number) {
         return await db
         .updateTable('sub_task')
         .set({
             title: title,
             complete_status: complete_status ? 1 : 0,
         })
-        .where('id', '=', id)
+        .where(({ and, cmpr}) => and([
+            cmpr('id', '=', id),
+            cmpr('task_id', '=', taskId)
+        ]))
         .executeTakeFirstOrThrow()
     }
 
