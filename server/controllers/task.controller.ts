@@ -34,17 +34,15 @@ export const tasksController = {
     postTask: async (req: RequestSuperSet, res: Response) => {
         const title = req.query. title as string ;
         const description = req.query. description as string
-
+        if (!title.length) {
+            res.status(404).json({
+                state: "ValidationError",
+                message: "title is required"
+            })
+        }
         try {
-            if (title) {
-                await taskModel.postTaskToDB(title, description, Number(req.body.columnId))
-                res.status(201).json();
-            } else {
-                res.status(404).json({
-                    state: "ValidationError",
-                    message: "title is required"
-                })
-            }
+            await taskModel.postTaskToDB(title, description, Number(req.body.columnId))
+            res.status(201).json();
         } catch(err) {
             res.status(500).json({
                 state: "DatabaseError",

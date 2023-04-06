@@ -32,16 +32,15 @@ export const subTasksController = {
     },
     postSubTask: async (req: RequestSuperSet, res: Response) => {
         const title = req.query. title as string;
+        if (!title.length) {
+            res.status(404).json({
+                state: "ValidationError",
+                message: "title is required"
+            });
+        }
         try {
-            if (title) {
-                await subTaskModel.postSubTaskToDB(title, Number(req.body.taskId));
-                res.status(201).json();
-            } else {
-                res.status(404).json({
-                    state: "ValidationError",
-                    message: "title is required"
-                });
-            }
+            await subTaskModel.postSubTaskToDB(title, Number(req.body.taskId));
+            res.status(201).json();
         } catch(err) {
             res.status(500).json({
                 state: "DatabaseError",

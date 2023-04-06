@@ -28,21 +28,21 @@ export const boardController = {
                 state: "DatabaseError",
                 error: err
             })
-        }
+        } 
 
     },
     postBoard: async (req: Request, res: Response) => {
         const name = req.query. name as string;
+        if (!name.length) {
+            return res.status(404).json({
+                state: "ValidationError",
+                message: "name is required"
+            })
+        }
+
         try {
-            if (name) {
-                await boardModel.postBoardToDB(name, req.body.userId)
-                res.status(201).json();
-            } else {
-                res.status(404).json({
-                    state: "ValidationError",
-                    message: "name is required"
-                })
-            }
+            await boardModel.postBoardToDB(name, req.body.userId)
+            res.status(201).json();
         } catch(err) {
             res.status(502).json({
                 state: "DatabaseError",
@@ -54,7 +54,7 @@ export const boardController = {
         const name = req.query. name as string;
         const { id } = req.params;
 
-        if (!name) {
+        if (!name.length) {
             res.status(404).json({
                 state: "ValidationError",
                 message: "name is required"

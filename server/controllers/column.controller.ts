@@ -6,14 +6,9 @@ export const columnsController = {
     getAllByBoard: async (req: RequestSuperSet, res: Response) => {
         try {
             const rows = await columnModel.getAllByBoardFromDB(Number(req.body.boardId));
-            rows.length ? res.json({
+            res.json({
                 data: rows
-            })
-            : res.status(404).json({
-                state: "error",
-                error: "Not found"
-            })
-            
+            }) 
         } catch(err) {
             res.status(500).json({
                 state: "DatabaseError",
@@ -33,7 +28,7 @@ export const columnsController = {
                 state: "DatabaseError",
                 error: err
             })
-        } 
+        }
     },
     postColumn: async (req: RequestSuperSet, res: Response) => {
         const name = req.query. name as string;

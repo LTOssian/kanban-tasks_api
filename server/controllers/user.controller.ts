@@ -40,16 +40,15 @@ export const userController = {
     postUser: async (req: Request, res: Response) => {
         const email = req.query.email as string;
         const password = req.query.password as string;
+        if (!email.length || !password.length) {
+            res.status(404).json({
+                state: "ValidationError",
+                message: "email/password are required"
+            })
+        }
         try {
-            if (email && password) {
-                await userModel.createUser(email, password);
-                res.status(201).json()
-            } else {
-                res.status(404).json({
-                    state: "ValidationError",
-                    message: "email/password are required"
-                })
-            }
+            await userModel.createUser(email, password);
+            res.status(201).json()
         } catch(err) {
             res.status(502).json({
                 state: "DatabaseError",
