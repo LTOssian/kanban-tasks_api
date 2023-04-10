@@ -22,5 +22,5 @@ app.use('/api/v1/user', userRouter);
 
 const PORT:string | number = process.env.PORT || 4001;
 app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`);
+    console.log(`Server listening on http://${process.env.DB_HOST}:${PORT}`);
 });
