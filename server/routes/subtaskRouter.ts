@@ -2,10 +2,10 @@ import express, { Router} from "express";
 import { subTasksController } from "../controllers/subtask.controller";
 // import { RequestSuperSet } from "../interfaces/interfaces";
 
-export const subTasksRouter: Router = express.Router();
+export const subTaskRouter: Router = express.Router();
 
-subTasksRouter.get('/', subTasksController.getAllByTasks)
-subTasksRouter.get('/:id', subTasksController.getById)
-subTasksRouter.post('/', subTasksController.postSubTask)
-subTasksRouter.put('/:id', subTasksController.updateSubTask)
-subTasksRouter.delete('/:id', subTasksController.deleteSubTask)
+subTaskRouter.get('/', subTasksController.getAllByTasks)
+subTaskRouter.get('/:id', subTasksController.getById)
+subTaskRouter.post('/', subTasksController.postSubTask)
+subTaskRouter.put('/:id', subTasksController.updateSubTask)
+subTaskRouter.delete('/:id', subTasksController.deleteSubTask)

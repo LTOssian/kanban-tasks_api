@@ -13,7 +13,6 @@ export const promisePool = createPool({
     database: process.env.DB_DATABASE
 }).promise();
 
-
 export const db = new Kysely<Database>({
     dialect: new MysqlDialect({
         pool: createPool({
