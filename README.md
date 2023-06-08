@@ -9,6 +9,7 @@ The API would allow users to create boards of tasks, tasks and subtasks.
 
 ```bash
 git clone https://github.com/LTOssian/kanban-tasks_api/
+cd kanban-tasks_api
 npm install
 ```
 
