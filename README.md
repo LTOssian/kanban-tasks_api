@@ -29,7 +29,7 @@ As this was my first REST Api, I had decided not to use an ORM such as Prisma in
 
 I learned a lot during this project and building this in a 3-tier architecture was a great idea. 
 
-For future project I should write tests for the API and take more time to think about the best way to return the most crucial informations to the user.
+For future projects I should lean into unit testing and take more time to think about the best way to return the most crucial informations to the user.
 
 ## Resources
 
